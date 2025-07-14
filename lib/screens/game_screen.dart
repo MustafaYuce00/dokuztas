@@ -3,6 +3,7 @@ import 'package:audioplayers/audioplayers.dart';
 import '../models/game_state.dart';
 import '../widgets/game_board.dart';
 import '../widgets/stone_widget.dart';
+import 'win_screen.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -152,33 +153,35 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   void _showWinDialog() {
     playSound('winSound');
     
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            '${gameState.winner == Player.red ? 'Red' : 'Blue'} Player Wins!',
-            style: TextStyle(
-              color: gameState.winner == Player.red ? Colors.red : Colors.blue,
-              fontWeight: FontWeight.bold,
+    // Navigate to win screen instead of showing dialog
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => WinScreen(
+          winner: gameState.winner!,
+          redWins: gameState.redWins,
+          blueWins: gameState.blueWins,
+          onPlayAgain: () {
+            Navigator.pop(context); // Close win screen
+            _resetGame();
+          },
+          onBackToHome: () {
+            Navigator.popUntil(context, (route) => route.isFirst); // Go back to home
+          },
+        ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return SlideTransition(
+            position: animation.drive(
+              Tween(begin: const Offset(0.0, 1.0), end: Offset.zero)
+                  .chain(CurveTween(curve: Curves.easeInOut)),
             ),
-          ),
-          content: Text(
-            'Score: Red ${gameState.redWins} - Blue ${gameState.blueWins}',
-            style: const TextStyle(fontSize: 18),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _resetGame();
-              },
-              child: const Text('Play Again'),
+            child: FadeTransition(
+              opacity: animation,
+              child: child,
             ),
-          ],
-        );
-      },
+          );
+        },
+      ),
     );
   }
 

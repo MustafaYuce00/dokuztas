@@ -13,7 +13,7 @@ class DokuzTasApp extends StatelessWidget {
     return MaterialApp(
       title: 'Dokuz Taş',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
         useMaterial3: true,
       ),
       home: const HomeScreen(),
