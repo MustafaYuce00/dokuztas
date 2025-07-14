@@ -338,7 +338,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             ),
             
             // Reset Button
-            Padding(
+     /*       Padding(
               padding: const EdgeInsets.all(16),
               child: ElevatedButton(
                 onPressed: _resetGame,
@@ -356,7 +356,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 ),
               ),
             ),
-          ],
+         */ ],
         ),
       ),
     );
