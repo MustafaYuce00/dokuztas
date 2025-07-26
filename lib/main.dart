@@ -24,4 +24,5 @@ class DokuzTasApp extends StatelessWidget {
 /*sıranın kimde olduğu belirten yazi ve parlama efekti 
 verilecek taşlara ve belki süre eklene bilir sürebitince,
 rastgele oynama veya karşı rakibe geçme vsgelebilir
+olmasa da oolur 
 */
