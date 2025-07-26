@@ -21,5 +21,7 @@ class DokuzTasApp extends StatelessWidget {
     );
   }
 }
-/*sıranın kimde olduğu belirten yazi ve parlama efekti verilercek taşlara ve belki sure eklene bilir surebitince rastgele oynama veya karsi rakibe geçme 
+/*sıranın kimde olduğu belirten yazi ve parlama efekti 
+verilecek taşlara ve belki süre eklene bilir sürebitince,
+rastgele oynama veya karşı rakibe geçme vsgelebilir
 */
