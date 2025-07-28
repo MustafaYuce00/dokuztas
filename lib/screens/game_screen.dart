@@ -219,7 +219,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: const Color(0xFF2F4F4F),
       appBar: AppBar(
-        title: Row(
+      title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
 
 
@@ -248,16 +248,14 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
            const Text(
-              'DOKUZ TAŞ',
+              'Score',
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
             ),
-           const SizedBox(width: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
