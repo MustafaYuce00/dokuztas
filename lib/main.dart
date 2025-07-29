@@ -21,8 +21,12 @@ class DokuzTasApp extends StatelessWidget {
     );
   }
 }
-/*sıranın kimde olduğu belirten yazi ve parlama efekti 
-verilecek taşlara ve belki süre eklene bilir sürebitince,
+/*
+dil değitrime gelebilir türkçe ingilizce vs
+ve yeni bir isim eklenebilir
+zorluk seviyeleri eklenebilir
+
+ taşlara ve belki süre eklene bilir sürebitince,
 rastgele oynama veya karşı rakibe geçme vsgelebilir
 olmasa da oolur 
 */
