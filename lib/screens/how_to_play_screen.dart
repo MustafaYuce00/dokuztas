@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../localization/app_localizations.dart';
 
 class HowToPlayScreen extends StatelessWidget {
   const HowToPlayScreen({super.key});
@@ -34,11 +35,11 @@ class HowToPlayScreen extends StatelessWidget {
                         size: 28,
                       ),
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Text(
-                        'NASIL OYNANIR?',
+                        AppLocalizations.of(context)!.howToPlay,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -77,36 +78,29 @@ class HowToPlayScreen extends StatelessWidget {
                       
                       // Oyun kuralları
                       _buildRuleSection(
-                        'AMAÇ',
-                        'Taşlarınızı aynı satır, sütun veya çapraz çizgi üzerinde '
-                        'üç tane yan yana getirerek rakibinizi yenin!',
+                        AppLocalizations.of(context)!.gameObjective,
+                        AppLocalizations.of(context)!.gameObjectiveDesc,
                         Icons.flag,
                         Colors.orange,
                       ),
                       
                       _buildRuleSection(
-                        'OYUN AŞAMALARI',
-                        '1. YERLEŞTIRME AŞAMASI: Her oyuncu sırayla 3 taşını '
-                        'tahta üzerine yerleştirir.\n\n'
-                        '2. HAREKET AŞAMASI: Tüm taşlar yerleştirildikten sonra, '
-                        'oyuncular taşlarını bağlantılı noktalara hareket ettirebilir.',
+                        AppLocalizations.of(context)!.gamePhases,
+                        AppLocalizations.of(context)!.gamePhasesDesc,
                         Icons.gamepad,
                         Colors.blue,
                       ),
                       
                       _buildRuleSection(
-                        'KAZANMA',
-                        'Taşlarınızdan üçünü aynı çizgi üzerinde yan yana '
-                        'getirdiğinizde oyunu kazanırsınız!',
+                        AppLocalizations.of(context)!.winning,
+                        AppLocalizations.of(context)!.winningDesc,
                         Icons.emoji_events,
                         Colors.yellow,
                       ),
                       
                       _buildRuleSection(
-                        'İPUÇLARI',
-                        '• Merkez noktayı kontrol etmeye çalışın\n'
-                        '• Rakibinizin üçlü yapmasını engelleyin\n'
-                        '• Birden fazla kazanma şansı yaratın',
+                        AppLocalizations.of(context)!.tips,
+                        AppLocalizations.of(context)!.tipsDesc,
                         Icons.lightbulb,
                         Colors.green,
                       ),
@@ -123,9 +117,9 @@ class HowToPlayScreen extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            const Text(
-                              'OYUNCULAR',
-                              style: TextStyle(
+                            Text(
+                              AppLocalizations.of(context)!.players,
+                              style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -153,16 +147,16 @@ class HowToPlayScreen extends StatelessWidget {
                                       ),
                                     ),
                                     const SizedBox(height: 8),
-                                    const Text(
-                                      'KIRMIZI',
-                                      style: TextStyle(
+                                    Text(
+                                      AppLocalizations.of(context)!.redPlayer,
+                                      style: const TextStyle(
                                         color: Colors.red,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const Text(
-                                      'İlk Oyuncu',
-                                      style: TextStyle(
+                                    Text(
+                                      AppLocalizations.of(context)!.firstPlayer,
+                                      style: const TextStyle(
                                         color: Colors.white70,
                                         fontSize: 12,
                                       ),
@@ -187,16 +181,16 @@ class HowToPlayScreen extends StatelessWidget {
                                       ),
                                     ),
                                     const SizedBox(height: 8),
-                                    const Text(
-                                      'MAVİ',
-                                      style: TextStyle(
+                                    Text(
+                                      AppLocalizations.of(context)!.bluePlayer,
+                                      style: const TextStyle(
                                         color: Colors.blue,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const Text(
-                                      'İkinci Oyuncu',
-                                      style: TextStyle(
+                                    Text(
+                                      AppLocalizations.of(context)!.secondPlayer,
+                                      style: const TextStyle(
                                         color: Colors.white70,
                                         fontSize: 12,
                                       ),
@@ -231,9 +225,9 @@ class HowToPlayScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                       ),
                     ),
-                    child: const Text(
-                      'ANLADIM, OYNAYALIM!',
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context)!.understoodLetsPlay,
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:provider/provider.dart';
 import '../models/game_state.dart';
 import '../widgets/game_board.dart';
 import '../widgets/stone_widget.dart';
+import '../localization/app_localizations.dart';
+import '../providers/language_provider.dart';
 import 'win_screen.dart';
 
 class GameScreen extends StatefulWidget {
@@ -219,68 +222,71 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: const Color(0xFF2F4F4F),
       appBar: AppBar(
-      title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFFFF5252), Color(0xFFE53935)],
-                ),
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.red.withOpacity(0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
+        title: Consumer<LanguageProvider>(
+          builder: (context, languageProvider, child) {
+            final localizations = AppLocalizations.of(context)!;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFFF5252), Color(0xFFE53935)],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.red.withOpacity(0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Text(
-                'KIRMIZI ${gameState.redWins}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-           const Text(
-              'Score',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF42A5F5), Color(0xFF1E88E5)],
-                ),
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blue.withOpacity(0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
+                  child: Text(
+                    '${localizations.redPlayer} ${gameState.redWins}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
                   ),
-                ],
-              ),
-              child: Text(
-                'MAVİ ${gameState.blueWins}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
                 ),
-              ),
-            ),
-          ],
+                Text(
+                  localizations.appTitle,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF42A5F5), Color(0xFF1E88E5)],
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.blue.withOpacity(0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    '${localizations.bluePlayer} ${gameState.blueWins}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
         backgroundColor: const Color(0xFF1E3A3A),
         centerTitle: true,
@@ -378,45 +384,50 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                                 ),
                               ],
                             ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  '${gameState.currentPlayer == Player.red ? 'KIRMIZI' : 'MAVİ'} OYUNCUNUN SIRASI',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    shadows: [
-                                      Shadow(
-                                        color: currentPlayerColor.withOpacity(0.8),
-                                        offset: const Offset(0, 0),
-                                        blurRadius: 8 + glowIntensity * 12,
+                            child: Consumer<LanguageProvider>(
+                              builder: (context, languageProvider, child) {
+                                final localizations = AppLocalizations.of(context)!;
+                                return Column(
+                                  children: [
+                                    Text(
+                                      '${gameState.currentPlayer == Player.red ? localizations.redPlayer : localizations.bluePlayer} ${localizations.playerTurn}',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        shadows: [
+                                          Shadow(
+                                            color: currentPlayerColor.withOpacity(0.8),
+                                            offset: const Offset(0, 0),
+                                            blurRadius: 8 + glowIntensity * 12,
+                                          ),
+                                          Shadow(
+                                            color: Colors.black.withOpacity(0.7),
+                                            offset: const Offset(2, 2),
+                                            blurRadius: 4,
+                                          ),
+                                        ],
                                       ),
-                                      Shadow(
-                                        color: Colors.black.withOpacity(0.7),
-                                        offset: const Offset(2, 2),
-                                        blurRadius: 4,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      gameState.phase == GamePhase.placing ? localizations.placingPhase : localizations.movingPhase,
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(0.9),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        shadows: [
+                                          Shadow(
+                                            color: currentPlayerColor.withOpacity(0.5),
+                                            offset: const Offset(0, 0),
+                                            blurRadius: 4 + glowIntensity * 6,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  gameState.phase == GamePhase.placing ? 'TAŞ YERLEŞTIRME' : 'TAŞ TAŞIMA',
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.9),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    shadows: [
-                                      Shadow(
-                                        color: currentPlayerColor.withOpacity(0.5),
-                                        offset: const Offset(0, 0),
-                                        blurRadius: 4 + glowIntensity * 6,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
                           );
                         },
@@ -429,71 +440,76 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             // Oyuncu Taşları (Yan Yana)
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // Red Player Stones
-                  Expanded(
-                    child: Column(
-                      children: [
-                        const Text(
-                          'KIRMIZI',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(3, (index) {
-                            final isPlaced = gameState.redStonesPlaced > index;
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 2),
-                              child: StoneWidget(
-                                player: Player.red,
-                                isPlaced: isPlaced,
-                                onTap: isPlaced ? null : () => onStoneTapped(Player.red, index),
+              child: Consumer<LanguageProvider>(
+                builder: (context, languageProvider, child) {
+                  final localizations = AppLocalizations.of(context)!;
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      // Red Player Stones
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              localizations.redPlayer,
+                              style: const TextStyle(
+                                color: Colors.red,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                               ),
-                            );
-                          }),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(3, (index) {
+                                final isPlaced = gameState.redStonesPlaced > index;
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                                  child: StoneWidget(
+                                    player: Player.red,
+                                    isPlaced: isPlaced,
+                                    onTap: isPlaced ? null : () => onStoneTapped(Player.red, index),
+                                  ),
+                                );
+                              }),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  
-                  // Blue Player Stones
-                  Expanded(
-                    child: Column(
-                      children: [
-                        const Text(
-                          'MAVİ',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(3, (index) {
-                            final isPlaced = gameState.blueStonesPlaced > index;
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 2),
-                              child: StoneWidget(
-                                player: Player.blue,
-                                isPlaced: isPlaced,
-                                onTap: isPlaced ? null : () => onStoneTapped(Player.blue, index),
+                      ),
+                      
+                      // Blue Player Stones
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              localizations.bluePlayer,
+                              style: const TextStyle(
+                                color: Colors.blue,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
                               ),
-                            );
-                          }),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(3, (index) {
+                                final isPlaced = gameState.blueStonesPlaced > index;
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                                  child: StoneWidget(
+                                    player: Player.blue,
+                                    isPlaced: isPlaced,
+                                    onTap: isPlaced ? null : () => onStoneTapped(Player.blue, index),
+                                  ),
+                                );
+                              }),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                ],
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
             

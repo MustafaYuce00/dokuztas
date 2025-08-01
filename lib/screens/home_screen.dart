@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'game_screen.dart';
 import 'how_to_play_screen.dart';
+import '../localization/app_localizations.dart';
+import '../providers/language_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -74,16 +77,82 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
         child: SafeArea(
-          child: AnimatedBuilder(
-            animation: _fadeAnimation,
-            builder: (context, child) {
-              return Opacity(
-                opacity: _fadeAnimation.value,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+          child: Stack(
+            children: [
+              // Dil Değiştirme Butonu
+              Positioned(
+                top: 10,
+                right: 10,
+                child: Consumer<LanguageProvider>(
+                  builder: (context, languageProvider, child) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Colors.white.withOpacity(0.3)),
+                      ),
+                      child: PopupMenuButton<Locale>(
+                        icon: const Icon(
+                          Icons.language,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                        offset: const Offset(0, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        color: const Color(0xFF2F4F4F),
+                        itemBuilder: (context) {
+                          return languageProvider.supportedLocales.map((locale) {
+                            return PopupMenuItem<Locale>(
+                              value: locale,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    languageProvider.currentLocale == locale
+                                        ? Icons.check_circle
+                                        : Icons.radio_button_unchecked,
+                                    color: languageProvider.currentLocale == locale
+                                        ? Colors.green
+                                        : Colors.white70,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    languageProvider.getLanguageName(locale),
+                                    style: TextStyle(
+                                      color: languageProvider.currentLocale == locale
+                                          ? Colors.white
+                                          : Colors.white70,
+                                      fontWeight: languageProvider.currentLocale == locale
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList();
+                        },
+                        onSelected: (locale) {
+                          languageProvider.changeLanguage(locale);
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+              
+              // Ana İçerik
+              AnimatedBuilder(
+                animation: _fadeAnimation,
+                builder: (context, child) {
+                  return Opacity(
+                    opacity: _fadeAnimation.value,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                       // Logo ve Başlık
                       const Spacer(),
                       
@@ -124,23 +193,34 @@ class _HomeScreenState extends State<HomeScreen>
                                     },
                                   ),
                                   const SizedBox(height: 20),
-                                  const Text(
-                                    'DOKUZ TAŞ',
-                                    style: TextStyle(
-                                      fontSize: 42,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      letterSpacing: 3,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    'Nine Men\'s Morris',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white.withOpacity(0.8),
-                                      fontStyle: FontStyle.italic,
-                                    ),
+                                  Consumer<LanguageProvider>(
+                                    builder: (context, languageProvider, child) {
+                                      final localizations = AppLocalizations.of(context)!;
+                                      return Column(
+                                        children: [
+                                          Text(
+                                            localizations.appTitle,
+                                            style: const TextStyle(
+                                              fontSize: 42,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                              letterSpacing: 3,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            languageProvider.currentLocale.languageCode == 'tr' 
+                                                ? 'Nine Men\'s Morris' 
+                                                : 'Dokuz Taş',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white.withOpacity(0.8),
+                                              fontStyle: FontStyle.italic,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
@@ -201,25 +281,30 @@ class _HomeScreenState extends State<HomeScreen>
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.play_arrow,
-                                      size: 40,
-                                      color: Colors.white,
-                                    ),
-                                    const SizedBox(width: 15),
-                                    const Text(
-                                      'OYNA',
-                                      style: TextStyle(
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        letterSpacing: 2,
-                                      ),
-                                    ),
-                                  ],
+                                child: Consumer<LanguageProvider>(
+                                  builder: (context, languageProvider, child) {
+                                    final localizations = AppLocalizations.of(context)!;
+                                    return Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.play_arrow,
+                                          size: 40,
+                                          color: Colors.white,
+                                        ),
+                                        const SizedBox(width: 15),
+                                        Text(
+                                          localizations.playGame.toUpperCase(),
+                                          style: const TextStyle(
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            letterSpacing: 2,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 ),
                               ),
                             ),
@@ -262,24 +347,29 @@ class _HomeScreenState extends State<HomeScreen>
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.help_outline,
-                                      color: Colors.white,
-                                      size: 24,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    const Text(
-                                      'NASIL OYNANIR?',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
+                                child: Consumer<LanguageProvider>(
+                                  builder: (context, languageProvider, child) {
+                                    final localizations = AppLocalizations.of(context)!;
+                                    return Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.help_outline,
+                                          color: Colors.white,
+                                          size: 24,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          localizations.howToPlay,
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 ),
                               ),
                             ),
@@ -335,12 +425,17 @@ class _HomeScreenState extends State<HomeScreen>
                                     ],
                                   ),
                                   const SizedBox(height: 8),
-                                  Text(
-                                    'İki oyuncu için strateji oyunu',
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.7),
-                                      fontSize: 14,
-                                    ),
+                                  Consumer<LanguageProvider>(
+                                    builder: (context, languageProvider, child) {
+                                      final localizations = AppLocalizations.of(context)!;
+                                      return Text(
+                                        localizations.strategyGame,
+                                        style: TextStyle(
+                                          color: Colors.white.withOpacity(0.7),
+                                          fontSize: 14,
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
@@ -348,11 +443,13 @@ class _HomeScreenState extends State<HomeScreen>
                           );
                         },
                       ),
-                    ],
-                  ),
-                ),
-              );
-            },
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),

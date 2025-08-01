@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/game_state.dart';
+import '../localization/app_localizations.dart';
 
 class WinScreen extends StatefulWidget {
   final Player winner;
@@ -175,7 +176,7 @@ class _WinScreenState extends State<WinScreen>
                             child: Column(
                               children: [
                                 Text(
-                                  'KAZANAN!',
+                                  AppLocalizations.of(context)!.playerWins,
                                   style: TextStyle(
                                     fontSize: 32,
                                     fontWeight: FontWeight.bold,
@@ -223,8 +224,8 @@ class _WinScreenState extends State<WinScreen>
                                       const SizedBox(width: 15),
                                       Text(
                                         widget.winner == Player.red
-                                            ? 'KIRMIZI OYUNCU'
-                                            : 'MAVİ OYUNCU',
+                                            ? AppLocalizations.of(context)!.redPlayer
+                                            : AppLocalizations.of(context)!.bluePlayer,
                                         style: const TextStyle(
                                           fontSize: 24,
                                           fontWeight: FontWeight.bold,
@@ -268,9 +269,9 @@ class _WinScreenState extends State<WinScreen>
                             ),
                             child: Column(
                               children: [
-                                const Text(
-                                  'SKOR DURUMU',
-                                  style: TextStyle(
+                                Text(
+                                  AppLocalizations.of(context)!.scoreStatus,
+                                  style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
@@ -281,7 +282,7 @@ class _WinScreenState extends State<WinScreen>
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
                                     _buildScoreItem(
-                                      'KIRMIZI',
+                                      AppLocalizations.of(context)!.redPlayer,
                                       widget.redWins,
                                       Colors.red,
                                       widget.winner == Player.red,
@@ -292,7 +293,7 @@ class _WinScreenState extends State<WinScreen>
                                       color: Colors.white.withOpacity(0.5),
                                     ),
                                     _buildScoreItem(
-                                      'MAVİ',
+                                      AppLocalizations.of(context)!.bluePlayer,
                                       widget.blueWins,
                                       Colors.blue,
                                       widget.winner == Player.blue,
@@ -339,9 +340,9 @@ class _WinScreenState extends State<WinScreen>
                                         size: 24,
                                       ),
                                       const SizedBox(width: 10),
-                                      const Text(
-                                        'TEKRAR OYNA',
-                                        style: TextStyle(
+                                      Text(
+                                        AppLocalizations.of(context)!.playAgain.toUpperCase(),
+                                        style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
@@ -378,9 +379,9 @@ class _WinScreenState extends State<WinScreen>
                                         size: 20,
                                       ),
                                       const SizedBox(width: 8),
-                                      const Text(
-                                        'ANA SAYFA',
-                                        style: TextStyle(
+                                      Text(
+                                        AppLocalizations.of(context)!.backToHome.toUpperCase(),
+                                        style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
